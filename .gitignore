@@ -3,7 +3,8 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .eggs/
-dist/
+# Только каталог dist в корне репозитория (wheel/sdist и т.п.)
+/dist/
 .python-version
 backend/.venv/
 venv/
@@ -11,7 +12,7 @@ venv/
 .env.*
 !.env.example
 
-# Node
+# Node / Vite — любые node_modules (в т.ч. frontend/); локальный вывод Vite во frontend/dist/
 node_modules/
 frontend/dist/
 
@@ -20,5 +21,5 @@ frontend/dist/
 .idea/
 .vscode/
 
-# Railway / local: билд фронта кладётся в backend/static на этапе deploy — папку не игнорируем,
-# чтобы при необходимости можно было закоммитить артефакт (обычно собирают только на CI).
+# backend/static — продакшен-сборка Vite; собирается при deploy (npm run build).
+# Не игнорируем: при желании можно коммитить артефакт; Railway пересобирает во frontend/.
