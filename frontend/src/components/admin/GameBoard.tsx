@@ -24,9 +24,9 @@ const TABLE: CSSProperties = {
 
 const TD_THEME: CSSProperties = {
   background: "#0D1B6E",
-  color: "#fff",
-  fontWeight: 700,
-  fontSize: 16,
+  color: "#ddeef4",
+  fontWeight: 800,
+  fontSize: 22,
   textAlign: "center",
   padding: "10px 12px",
   border: "1.5px solid #1e2e8a",
@@ -82,16 +82,6 @@ function formatPrice(price: number | null | undefined): string {
   return String(price);
 }
 
-function priceLabelForColumn(themes: GameRound["themes"], questionIndex: number): string {
-  for (const t of themes) {
-    const q = t.questions[questionIndex];
-    if (q) {
-      return formatPrice(q.price);
-    }
-  }
-  return "—";
-}
-
 function isQuestionUsed(playedSet: Set<string>, roundIndex: number, themeIndex: number, questionIndex: number): boolean {
   const key = playedKey(roundIndex, themeIndex, questionIndex);
   return playedSet.has(key);
@@ -114,14 +104,6 @@ export function GameBoard({ round, roundIndex, played, disabled, onOpen }: Props
     <div className="admin-board" style={ADMIN_OUTER}>
       <table style={TABLE}>
         <tbody>
-          <tr>
-            <td style={TD_THEME} aria-hidden />
-            {Array.from({ length: priceColCount }, (_, qi) => (
-              <td key={`h-${qi}`} style={{ ...TD_PRICE, padding: "10px 12px" }}>
-                {priceLabelForColumn(themes, qi)}
-              </td>
-            ))}
-          </tr>
           {themes.map((theme, ti) => (
             <tr key={`theme-row-${ti}`}>
               <td style={TD_THEME}>{theme.name}</td>

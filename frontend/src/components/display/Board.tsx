@@ -24,9 +24,9 @@ const TABLE: CSSProperties = {
 
 const TD_THEME: CSSProperties = {
   background: "#0D1B6E",
-  color: "#fff",
-  fontWeight: 700,
-  fontSize: 16,
+  color: "#ddeef4",
+  fontWeight: 800,
+  fontSize: 22,
   textAlign: "center",
   padding: "10px 12px",
   border: "1.5px solid #1e2e8a",
@@ -54,16 +54,6 @@ function formatPrice(price: number | null | undefined): string {
     return "—";
   }
   return String(price);
-}
-
-function priceLabelForColumn(themes: GameRound["themes"], questionIndex: number): string {
-  for (const t of themes) {
-    const q = t.questions[questionIndex];
-    if (q) {
-      return formatPrice(q.price);
-    }
-  }
-  return "—";
 }
 
 /** Эквивалент «question.used»: ячейка на сервере помечена в `played` или вопроса нет. */
@@ -97,14 +87,6 @@ export function Board({ round, roundIndex, played }: Props) {
     <div className="display-board" style={BOARD_OUTER}>
       <table style={TABLE}>
         <tbody>
-          <tr>
-            <td style={TD_THEME} aria-hidden />
-            {Array.from({ length: priceColCount }, (_, qi) => (
-              <td key={`h-${qi}`} style={TD_PRICE}>
-                {priceLabelForColumn(themes, qi)}
-              </td>
-            ))}
-          </tr>
           {themes.map((theme, ti) => (
             <tr key={`theme-row-${ti}`}>
               <td style={TD_THEME}>{theme.name}</td>
