@@ -71,6 +71,7 @@ export function Admin() {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
 
   const refreshPackPreview = useCallback(async () => {
     setLoading(true);
@@ -186,14 +187,8 @@ export function Admin() {
     [runAction],
   );
 
-  const onReset = async () => {
-    if (
-      !window.confirm(
-        "Сбросить игру? Счёт обнулится, прогресс раундов и вопросов сбросится. Игроки останутся.",
-      )
-    ) {
-      return;
-    }
+  const performReset = async () => {
+    setResetConfirmOpen(false);
     setBusy(true);
     setError(null);
     try {
@@ -314,7 +309,12 @@ export function Admin() {
                 >
                   Следующий раунд
                 </button>
-                <button type="button" className="admin-btn admin-btn--danger" disabled={busy} onClick={() => void onReset()}>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn--danger"
+                  disabled={busy}
+                  onClick={() => setResetConfirmOpen(true)}
+                >
                   Сбросить игру
                 </button>
               </div>
@@ -375,6 +375,44 @@ export function Admin() {
       </div>
 
       {loading && !uploading ? <span className="admin-loading-hint">Обновление…</span> : null}
+
+      {resetConfirmOpen ? (
+        <div
+          className="admin-reset-dialog-backdrop"
+          role="presentation"
+          onClick={() => !busy && setResetConfirmOpen(false)}
+        >
+          <div
+            className="admin-reset-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="admin-reset-dialog-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p id="admin-reset-dialog-title" className="admin-reset-dialog__text">
+              Сбросить игру? Счёт обнулится, прогресс раундов и вопросов сбросится. Игроки останутся.
+            </p>
+            <div className="admin-reset-dialog__actions">
+              <button
+                type="button"
+                className="admin-btn admin-btn--secondary"
+                disabled={busy}
+                onClick={() => setResetConfirmOpen(false)}
+              >
+                Отмена
+              </button>
+              <button
+                type="button"
+                className="admin-btn admin-btn--danger"
+                disabled={busy}
+                onClick={() => void performReset()}
+              >
+                Сбросить
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

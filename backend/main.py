@@ -1,5 +1,4 @@
 import json
-import os
 from pathlib import Path
 from typing import Set
 
@@ -15,14 +14,15 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 app = FastAPI(title="Свояк API")
 
-if os.getenv("ENVIRONMENT") == "development":
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+# CORS на всех окружениях: прод (Railway) без ENVIRONMENT=development иначе не подключался бы middleware;
+# кросс-доменные админки / инструменты тоже смогут дергать API.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 game_state = GameState()
 
@@ -95,6 +95,7 @@ async def get_admin_state() -> dict:
 
 @app.post("/api/reset")
 async def reset_game() -> dict:
+    print("RESET called", flush=True)
     try:
         game_state.reset_game()
     except GameActionError as e:
