@@ -1,0 +1,291 @@
+/* Экран игрока (телефон) */
+
+.player-root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse 100% 80% at 50% 0%, #142a4a 0%, #0a1628 50%, #050810 100%);
+  color: #f2f6ff;
+}
+
+.player-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.player-main--join {
+  justify-content: center;
+  align-items: stretch;
+}
+
+.player-connecting {
+  margin: auto;
+  text-align: center;
+  font-size: 1.15rem;
+  opacity: 0.85;
+}
+
+.player-stage {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  min-height: 0;
+}
+
+/* ——— Большая кнопка ——— */
+
+.player-big-button {
+  flex: 1;
+  width: 100%;
+  min-height: min(58vh, 520px);
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  cursor: default;
+  transition:
+    transform 0.12s ease,
+    filter 0.12s ease,
+    opacity 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.player-big-button:enabled:active {
+  transform: scale(0.98);
+}
+
+.player-big-button--idle {
+  background: linear-gradient(180deg, #3a4556 0%, #2a323e 100%);
+  color: rgba(255, 255, 255, 0.65);
+  box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.player-big-button--blocked {
+  background: linear-gradient(180deg, #3a4556 0%, #2a323e 100%);
+  color: rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.player-big-button--active {
+  background: linear-gradient(180deg, #1e8f4a 0%, #0d6e38 45%, #085a2e 100%);
+  color: #fff;
+  cursor: pointer;
+  box-shadow:
+    0 8px 32px rgba(14, 120, 60, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.player-big-button--active:disabled {
+  opacity: 0.75;
+  cursor: default;
+}
+
+.player-big-button--your-turn {
+  background: linear-gradient(180deg, #e8b024 0%, #c48910 50%, #a06f0a 100%);
+  color: #1a1208;
+  box-shadow:
+    0 8px 36px rgba(232, 176, 36, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.player-big-button--other {
+  background: linear-gradient(180deg, #3a4556 0%, #2a323e 100%);
+  color: rgba(255, 255, 255, 0.88);
+  box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.player-big-button__label {
+  font-size: clamp(1.75rem, 10vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.player-big-button__sub {
+  font-size: clamp(0.95rem, 4vw, 1.15rem);
+  font-weight: 600;
+  opacity: 0.75;
+  text-align: center;
+}
+
+/* ——— Футер ——— */
+
+.player-footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem calc(0.85rem + env(safe-area-inset-bottom, 0));
+  background: rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.player-footer__name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-footer__score {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #e8c84a;
+  flex-shrink: 0;
+}
+
+/* ——— Вход ——— */
+
+.player-join {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.player-join__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.player-join__label {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.player-join__input {
+  font-size: 1.15rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.player-join__submit {
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #2563b8 0%, #1a4a8c 100%);
+  color: #fff;
+  cursor: pointer;
+}
+
+.player-join__submit:disabled {
+  opacity: 0.6;
+}
+
+.player-join__error {
+  margin: 0;
+  color: #f6a0a0;
+  font-size: 0.95rem;
+}
+
+/* ——— Финал ——— */
+
+.player-final {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.player-final__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.player-final__label {
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.player-final__input {
+  font-size: 1.25rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.player-final__input--text {
+  font-size: 1.1rem;
+}
+
+.player-final__row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.player-final__btn {
+  flex: 1;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.95rem 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.player-final__btn:disabled {
+  opacity: 0.55;
+}
+
+.player-final__btn--primary {
+  background: linear-gradient(180deg, #1e8f4a 0%, #0d6e38 100%);
+  color: #fff;
+}
+
+.player-final__btn--secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.player-final__btn--wide {
+  flex: none;
+  width: 100%;
+}
+
+.player-final__error {
+  margin: 0;
+  color: #f6a0a0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.player-final--wait {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.player-final__wait-text {
+  margin: 0;
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  font-weight: 600;
+  opacity: 0.9;
+}

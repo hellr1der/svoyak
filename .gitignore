@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+.python-version
+backend/.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Railway / local: билд фронта кладётся в backend/static на этапе deploy — папку не игнорируем,
+# чтобы при необходимости можно было закоммитить артефакт (обычно собирают только на CI).

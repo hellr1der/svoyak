@@ -1,0 +1,136 @@
+{
+  "rounds": [
+    {
+      "name": "Основной раунд",
+      "themes": [
+        {
+          "name": "Наука",
+          "questions": [
+            {
+              "price": 100,
+              "question": "Сколько планет в Солнечной системе по классификации МАС?",
+              "question_image": null,
+              "answer": "Восемь",
+              "answer_image": null
+            },
+            {
+              "price": 200,
+              "question": "Как называется процесс превращения жидкости в пар?",
+              "question_image": null,
+              "answer": "Испарение",
+              "answer_image": null
+            },
+            {
+              "price": 300,
+              "question": "Кто предложил теорию относительности?",
+              "question_image": null,
+              "answer": "Альберт Эйнштейн",
+              "answer_image": null
+            }
+          ]
+        },
+        {
+          "name": "География",
+          "questions": [
+            {
+              "price": 100,
+              "question": "Какая река длиннее — Нил или Амазонка?",
+              "question_image": null,
+              "answer": "Нил",
+              "answer_image": null
+            },
+            {
+              "price": 200,
+              "question": "Столица Австралии",
+              "question_image": null,
+              "answer": "Канберра",
+              "answer_image": null
+            },
+            {
+              "price": 300,
+              "question": "В каком море остров Крит?",
+              "question_image": null,
+              "answer": "Средиземное",
+              "answer_image": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Второй раунд",
+      "themes": [
+        {
+          "name": "Кино",
+          "questions": [
+            {
+              "price": 100,
+              "question": "Кто снял фильм «Криминальное чтиво»?",
+              "question_image": null,
+              "answer": "Квентин Тарантино",
+              "answer_image": null
+            },
+            {
+              "price": 200,
+              "question": "Как звали капитана «Чёрной жемчужины» в «Пиратах Карибского моря»?",
+              "question_image": null,
+              "answer": "Джек Воробей",
+              "answer_image": null
+            },
+            {
+              "price": 300,
+              "question": "Первая цветная полнометражная анимация Disney",
+              "question_image": null,
+              "answer": "«Белоснежка и семь гномов»",
+              "answer_image": null
+            }
+          ]
+        },
+        {
+          "name": "Спорт",
+          "questions": [
+            {
+              "price": 100,
+              "question": "Сколько игроков в баскетбольной команде на площадке?",
+              "question_image": null,
+              "answer": "Пять",
+              "answer_image": null
+            },
+            {
+              "price": 200,
+              "question": "В каком виде спорта вручают кубок Стэнли?",
+              "question_image": null,
+              "answer": "Хоккей с шайбой",
+              "answer_image": null
+            },
+            {
+              "price": 300,
+              "question": "Страна, семикратный чемпион мира по футболу",
+              "question_image": null,
+              "answer": "Бразилия",
+              "answer_image": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Финал",
+      "is_final": true,
+      "themes": [
+        {
+          "name": "Финальная тема",
+          "questions": [
+            {
+              "price": null,
+              "question": "Финальный вопрос: что общего у всех баллов в этом паке?",
+              "question_image": null,
+              "answer": "Это тестовый пак для приложения «Свояк»",
+              "answer_image": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
