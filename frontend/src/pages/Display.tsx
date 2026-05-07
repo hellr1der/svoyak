@@ -102,7 +102,11 @@ function DisplayBody({ state }: { state: GameStateMessage }) {
         </div>
       );
     }
-    return <Board round={current_round} roundIndex={current_round_index} played={played} />;
+    return (
+      <div className="display-board-shell">
+        <Board round={current_round} roundIndex={current_round_index} played={played} />
+      </div>
+    );
   }
 
   if (status === "final") {

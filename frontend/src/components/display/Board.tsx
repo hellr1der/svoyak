@@ -13,36 +13,57 @@ function formatPrice(price: number | null | undefined): string {
   return String(price);
 }
 
+/** Подпись столбца цен: берём цену из первой темы, у которой есть вопрос на этом уровне. */
+function priceLabelForColumn(themes: GameRound["themes"], questionIndex: number): string {
+  for (const t of themes) {
+    const q = t.questions[questionIndex];
+    if (q) {
+      return formatPrice(q.price);
+    }
+  }
+  return "—";
+}
+
 export function Board({ round, roundIndex, played }: Props) {
   const playedSet = new Set(played);
   const themes = round.themes;
-  const colCount = themes.length;
-  if (colCount === 0) {
+  if (themes.length === 0) {
     return <div className="display-board display-board--empty">Нет тем в раунде</div>;
   }
 
-  const rowCount = Math.max(0, ...themes.map((t) => t.questions.length));
+  const priceColCount = Math.max(0, ...themes.map((t) => t.questions.length));
+  if (priceColCount === 0) {
+    return (
+      <div className="display-board display-board--empty">Нет вопросов в темах</div>
+    );
+  }
+
+  const gridTemplateColumns = `minmax(10rem, 1.15fr) repeat(${priceColCount}, minmax(0, 1fr))`;
 
   return (
     <div className="display-board">
       <div
         className="display-board__grid"
         style={{
-          gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
+          gridTemplateColumns,
         }}
       >
-        {themes.map((theme, ti) => (
-          <div key={ti} className="display-board__head">
-            {theme.name}
+        <div className="display-board__corner" aria-hidden />
+
+        {Array.from({ length: priceColCount }, (_, qi) => (
+          <div key={`price-head-${qi}`} className="display-board__col-head">
+            {priceLabelForColumn(themes, qi)}
           </div>
         ))}
 
-        {Array.from({ length: rowCount }, (_, qi) =>
-          themes.map((theme, ti) => {
+        {themes.flatMap((theme, ti) => [
+          <div key={`theme-${ti}`} className="display-board__theme">
+            {theme.name}
+          </div>,
+          ...Array.from({ length: priceColCount }, (_, qi) => {
             const q = theme.questions[qi];
             const key = playedKey(roundIndex, ti, qi);
             const isPlayed = !q || playedSet.has(key);
-
             return (
               <div
                 key={`cell-${ti}-${qi}`}
@@ -56,7 +77,7 @@ export function Board({ round, roundIndex, played }: Props) {
               </div>
             );
           }),
-        ).flat()}
+        ])}
       </div>
     </div>
   );
