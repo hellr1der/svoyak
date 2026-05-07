@@ -8,6 +8,8 @@ __pycache__/
 .python-version
 backend/.venv/
 venv/
+# Локальная копия пака на сервере / после редактора (генерируется при сохранении)
+backend/pack.json
 .env
 .env.*
 !.env.example

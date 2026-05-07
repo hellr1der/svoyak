@@ -27,6 +27,7 @@ class Question(BaseModel):
     price: int | None
     question: str
     question_image: str | None = None
+    question_audio: str | None = None
     answer: str
     answer_image: str | None = None
 

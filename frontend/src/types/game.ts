@@ -10,6 +10,7 @@ export interface GameQuestion {
   price: number | null;
   question: string;
   question_image: string | null;
+  question_audio?: string | null;
   answer: string;
   answer_image: string | null;
 }

@@ -1,4 +1,5 @@
 import json
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Set
 
@@ -12,7 +13,31 @@ from game import GameActionError, GameState, Pack
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
-app = FastAPI(title="Свояк API")
+game_state = GameState()
+
+BACKEND_DIR = Path(__file__).resolve().parent
+PACK_FILE = BACKEND_DIR / "pack.json"
+
+
+def _try_load_pack_from_disk() -> None:
+    if not PACK_FILE.is_file():
+        return
+    try:
+        raw = PACK_FILE.read_text(encoding="utf-8")
+        data = json.loads(raw)
+        pack = Pack.model_validate(data)
+        game_state.load_pack(pack)
+    except (OSError, json.JSONDecodeError, ValidationError):
+        pass
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    _try_load_pack_from_disk()
+    yield
+
+
+app = FastAPI(title="Свояк API", lifespan=lifespan)
 
 # CORS на всех окружениях: прод (Railway) без ENVIRONMENT=development иначе не подключался бы middleware;
 # кросс-доменные админки / инструменты тоже смогут дергать API.
@@ -23,8 +48,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-game_state = GameState()
 
 
 class ConnectionManager:
@@ -160,8 +183,25 @@ async def upload_pack(file: UploadFile = File(...)) -> dict:
         raise HTTPException(status_code=400, detail=_format_validation_error(e)) from e
 
     game_state.load_pack(pack)
+    if PACK_FILE.parent.is_dir():
+        PACK_FILE.write_text(
+            json.dumps(pack.model_dump(), ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
     await broadcast_state()
     return {"status": "ok", "rounds": len(pack.rounds)}
+
+
+@app.put("/api/pack")
+async def put_pack(pack: Pack) -> dict:
+    if PACK_FILE.parent.is_dir():
+        PACK_FILE.write_text(
+            json.dumps(pack.model_dump(), ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+    game_state.load_pack(pack)
+    await broadcast_state()
+    return {"status": "ok"}
 
 
 @app.websocket("/ws")

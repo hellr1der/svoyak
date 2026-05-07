@@ -1,0 +1,367 @@
+/* Редактор пака — палитра как в приложении */
+
+.editor-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #0b1230;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  padding: 1rem 1.25rem 2rem;
+}
+
+.editor-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1.5px solid #1e2e8a;
+}
+
+.editor-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  flex: 1;
+  min-width: 200px;
+}
+
+.editor-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.editor-btn {
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.55rem 1rem;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  background: #1e2e8a;
+}
+
+.editor-btn:hover {
+  background: #2a3faa;
+}
+
+.editor-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.editor-btn--secondary {
+  background: #0d1b6e;
+  border: 1.5px solid #1e2e8a;
+}
+
+.editor-btn--secondary:hover {
+  background: #152a7a;
+}
+
+.editor-btn--danger {
+  background: #5a1e2a;
+}
+
+.editor-btn--danger:hover {
+  background: #702436;
+}
+
+.editor-btn--ghost {
+  background: transparent;
+  border: 1.5px solid #1e2e8a;
+}
+
+.editor-msg {
+  padding: 0.65rem 1rem;
+  margin-bottom: 1rem;
+  border: 1.5px solid #1e2e8a;
+  background: #0d1b6e;
+  font-size: 0.95rem;
+}
+
+.editor-msg--ok {
+  border-color: #2a6a3a;
+  color: #cfe;
+}
+
+.editor-msg--err {
+  border-color: #8a3a3a;
+  color: #fcc;
+}
+
+.editor-tools {
+  margin-bottom: 1rem;
+}
+
+.editor-note {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: #aacccc;
+}
+
+.editor-round {
+  margin-bottom: 1rem;
+  border: 1.5px solid #1e2e8a;
+  background: #0d1b6e;
+}
+
+.editor-round__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: 0.65rem 0.85rem;
+  background: #060e2a;
+  border-bottom: 1.5px solid #1e2e8a;
+  cursor: grab;
+}
+
+.editor-round__head:active {
+  cursor: grabbing;
+}
+
+.editor-round__toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.15rem 0.35rem;
+  font-family: Arial, sans-serif;
+}
+
+.editor-round__name {
+  font-weight: 800;
+  flex: 1;
+  min-width: 120px;
+  font-size: 1rem;
+}
+
+.editor-round__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: #aacccc;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.editor-inline-input {
+  flex: 1;
+  min-width: 140px;
+  padding: 0.35rem 0.5rem;
+  border: 1.5px solid #1e2e8a;
+  border-radius: 0;
+  background: #0b1230;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+.editor-round__body {
+  padding: 0.75rem;
+}
+
+.editor-theme {
+  margin-bottom: 0.85rem;
+  border: 1.5px solid #1e2e8a;
+  background: #0b1230;
+}
+
+.editor-theme:last-child {
+  margin-bottom: 0;
+}
+
+.editor-theme__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  background: #0d1b6e;
+  border-bottom: 1.5px solid #1e2e8a;
+  cursor: grab;
+}
+
+.editor-theme__head:active {
+  cursor: grabbing;
+}
+
+.editor-theme__name {
+  font-weight: 700;
+  flex: 1;
+  min-width: 100px;
+  font-size: 0.95rem;
+}
+
+.editor-theme__body {
+  padding: 0.5rem;
+}
+
+.editor-q-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.65rem;
+  padding: 0.45rem 0.5rem;
+  margin-bottom: 0.35rem;
+  border: 1px solid #1e2e8a;
+  background: #060e2a;
+  cursor: grab;
+}
+
+.editor-q-row:last-child {
+  margin-bottom: 0;
+}
+
+.editor-q-row:active {
+  cursor: grabbing;
+}
+
+.editor-q-row__price {
+  font-weight: 900;
+  color: #ddeef4;
+  min-width: 4ch;
+  font-size: 0.95rem;
+}
+
+.editor-q-row__snippet {
+  flex: 1;
+  min-width: 140px;
+  font-size: 0.82rem;
+  color: #aacccc;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor-q-row__flags {
+  display: flex;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  color: #aacccc;
+}
+
+.editor-icon-btn {
+  background: #1e2e8a;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+  padding: 0.25rem 0.45rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.editor-icon-btn:hover {
+  background: #2a3faa;
+}
+
+.editor-add-row {
+  margin-top: 0.5rem;
+}
+
+.editor-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.editor-modal,
+.editor-confirm {
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  background: #0b1230;
+  border: 1.5px solid #1e2e8a;
+  border-radius: 0;
+}
+
+.editor-modal h3 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.editor-field {
+  margin-bottom: 0.85rem;
+}
+
+.editor-field label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #aacccc;
+  margin-bottom: 0.35rem;
+}
+
+.editor-field input,
+.editor-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.6rem;
+  border: 1.5px solid #1e2e8a;
+  border-radius: 0;
+  background: #0d1b6e;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+.editor-field textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.editor-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.editor-confirm__text {
+  margin: 0 0 1rem;
+  line-height: 1.45;
+}
+
+.editor-confirm__actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.editor-loading {
+  color: #aacccc;
+  padding: 2rem;
+  text-align: center;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #aacccc;
+}
+
+.checkbox-row input {
+  width: auto;
+}
