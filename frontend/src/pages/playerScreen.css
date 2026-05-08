@@ -213,7 +213,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 280px;
+  width: min(360px, 92vw);
 }
 
 .player-final__label {
@@ -232,6 +232,25 @@
   text-align: center;
   outline: none;
   border-radius: 0;
+}
+
+.player-final__textarea {
+  background: #0d1b6e;
+  border: 1.5px solid #1e2e8a;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.35;
+  padding: 12px 14px;
+  text-align: left;
+  outline: none;
+  border-radius: 0;
+  resize: vertical;
+  min-height: 4.5rem;
+  font-family: inherit;
+}
+
+.player-final__textarea:focus {
+  border-color: #4a6aff;
 }
 
 .player-final__row {

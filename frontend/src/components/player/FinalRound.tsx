@@ -45,15 +45,25 @@ export function FinalRound({ state, player, playerId }: Props) {
     return { minBet: min, maxBet: max, allIn: va };
   }, [player.score]);
 
-  const submitBet = async (bet: number) => {
+  const submitBetAndAnswer = async (bet: number) => {
+    const text = answerInput.trim();
+    if (!text) {
+      setError("Введите ответ");
+      return;
+    }
     setError(null);
     setBusy(true);
     try {
       if (bet < minBet || bet > maxBet) {
         throw new Error(`Ставка от ${minBet} до ${maxBet}`);
       }
-      await postAction("submit_final_bet", { player_id: playerId, bet });
+      await postAction("submit_final_bet_and_answer", {
+        player_id: playerId,
+        bet,
+        answer: text,
+      });
       setBetInput("");
+      setAnswerInput("");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Ошибка");
     } finally {
@@ -64,14 +74,14 @@ export function FinalRound({ state, player, playerId }: Props) {
   const onPlaceBet = () => {
     const n = parseInt(betInput, 10);
     if (Number.isNaN(n)) {
-      setError("Введите число");
+      setError("Введите число ставки");
       return;
     }
-    void submitBet(n);
+    void submitBetAndAnswer(n);
   };
 
   const onAllIn = () => {
-    void submitBet(allIn);
+    void submitBetAndAnswer(allIn);
   };
 
   const onSendAnswer = async () => {
@@ -111,6 +121,19 @@ export function FinalRound({ state, player, playerId }: Props) {
             disabled={busy}
             placeholder={`${minBet}…${maxBet}`}
           />
+          <label className="player-final__label" htmlFor="ans-bet">
+            Твой ответ
+          </label>
+          <textarea
+            id="ans-bet"
+            className="player-final__textarea"
+            rows={3}
+            autoCapitalize="sentences"
+            value={answerInput}
+            onChange={(e) => setAnswerInput(e.target.value)}
+            disabled={busy}
+            placeholder="Свободная форма"
+          />
           <div className="player-final__row">
             <button
               type="button"
@@ -126,7 +149,7 @@ export function FinalRound({ state, player, playerId }: Props) {
               disabled={busy}
               onClick={onPlaceBet}
             >
-              Поставить
+              Отправить
             </button>
           </div>
         </div>

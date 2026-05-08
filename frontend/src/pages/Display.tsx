@@ -127,7 +127,7 @@ function DisplayBody({ state }: { state: GameStateMessage }) {
       return (
         <div className="display-final display-final--bets">
           <h1 className="display-final__theme">{themeTitle}</h1>
-          <p className="display-final__hint">Игроки делают ставки...</p>
+          <p className="display-final__hint">Игроки делают ставки и пишут ответы...</p>
         </div>
       );
     }

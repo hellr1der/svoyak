@@ -123,6 +123,8 @@ class GameState:
                 self._remove_player(payload)
             case "submit_final_bet":
                 self._submit_final_bet(payload)
+            case "submit_final_bet_and_answer":
+                self._submit_final_bet_and_answer(payload)
             case "submit_final_answer":
                 self._submit_final_answer(payload)
             case "judge_final_answer":
@@ -385,6 +387,20 @@ class GameState:
         if bet > max_bet:
             raise GameActionError("Ставка не может превышать счёт игрока")
         self.final_bets[pid] = bet
+
+    def _submit_final_bet_and_answer(self, payload: dict) -> None:
+        if "answer" not in payload:
+            raise GameActionError("Ожидается payload: player_id, bet, answer")
+        answer_str = str(payload["answer"]).strip()
+        if not answer_str:
+            raise GameActionError("Введите ответ")
+        try:
+            bet_raw = payload["bet"]
+            pid_raw = payload["player_id"]
+        except KeyError as e:
+            raise GameActionError("Ожидается payload: player_id, bet, answer") from e
+        self._submit_final_bet({"player_id": pid_raw, "bet": bet_raw})
+        self._submit_final_answer({"player_id": pid_raw, "answer": answer_str})
 
     def _submit_final_answer(self, payload: dict) -> None:
         if self.status != "final":
