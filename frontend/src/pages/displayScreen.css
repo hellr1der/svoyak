@@ -17,9 +17,10 @@
 .display-main {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   overflow: hidden;
+  min-height: 0;
 }
 
 /* Idle / ожидание */
@@ -50,10 +51,10 @@
   height: 100%;
   background: #0b1230;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   position: relative;
-  padding: 40px;
+  padding: clamp(16px, 3vmin, 40px);
 }
 
 .display-question__price-corner {
@@ -70,9 +71,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
-  max-width: 900px;
+  justify-content: center;
+  gap: clamp(12px, 2vmin, 24px);
+  max-width: 100%;
   width: 100%;
+  min-height: 0;
+  flex: 1;
+}
+
+.display-question__body--with-image {
+  justify-content: flex-start;
+}
+
+.display-question__image-slot {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .display-question__text {
@@ -84,8 +101,10 @@
 }
 
 .display-question__image {
-  max-width: 500px;
-  max-height: 300px;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
 }
 

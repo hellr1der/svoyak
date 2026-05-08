@@ -44,14 +44,22 @@ export function QuestionView({ variant, data, priceText, buzzerName, animKey }: 
     <div className="display-question">
       {corner ? <div className="display-question__price-corner">{corner}</div> : null}
 
-      <div key={animKey} className="display-question__body display-question__body--anim">
+      <div
+        key={animKey}
+        className={
+          "display-question__body display-question__body--anim" +
+          (showImage ? " display-question__body--with-image" : "")
+        }
+      >
         {showImage ? (
-          <img
-            className="display-question__image"
-            src={image!}
-            alt=""
-            decoding="async"
-          />
+          <div className="display-question__image-slot">
+            <img
+              className="display-question__image"
+              src={image!}
+              alt=""
+              decoding="async"
+            />
+          </div>
         ) : null}
         <div className="display-question__text">{text}</div>
         {buzzerName ? (
