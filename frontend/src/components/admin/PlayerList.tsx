@@ -5,9 +5,10 @@ type Props = {
   state: AdminGameState;
   busy: boolean;
   onAdjust: (playerId: string, delta: number) => Promise<void>;
+  onRemove: (playerId: string) => Promise<void>;
 };
 
-export function PlayerList({ state, busy, onAdjust }: Props) {
+export function PlayerList({ state, busy, onAdjust, onRemove }: Props) {
   const [customById, setCustomById] = useState<Record<string, string>>({});
 
   return (
@@ -82,6 +83,23 @@ export function PlayerList({ state, busy, onAdjust }: Props) {
                 Применить
               </button>
             </div>
+            <button
+              type="button"
+              className="admin-btn admin-btn--small admin-btn--danger admin-player-list__remove"
+              disabled={busy}
+              onClick={() => {
+                if (
+                  !window.confirm(
+                    `Удалить игрока «${p.name}» из игры? Его сессия отключится от состояния.`,
+                  )
+                ) {
+                  return;
+                }
+                void onRemove(p.id);
+              }}
+            >
+              Удалить из игры
+            </button>
           </li>
         ))}
       </ul>

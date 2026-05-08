@@ -513,6 +513,11 @@
   color: #fff;
 }
 
+.admin-player-list__remove {
+  margin-top: 0.45rem;
+  width: 100%;
+}
+
 .admin-player-list__empty {
   margin: 0.5rem 0 0;
   font-size: 0.9rem;

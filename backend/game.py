@@ -119,6 +119,8 @@ class GameState:
                 self._next_round()
             case "adjust_score":
                 self._adjust_score(payload)
+            case "remove_player":
+                self._remove_player(payload)
             case "submit_final_bet":
                 self._submit_final_bet(payload)
             case "submit_final_answer":
@@ -347,6 +349,24 @@ class GameState:
         if not player:
             raise GameActionError("Неизвестный игрок")
         player.score += delta
+
+    def _remove_player(self, payload: dict) -> None:
+        try:
+            pid = str(payload["player_id"])
+        except (KeyError, TypeError, ValueError) as e:
+            raise GameActionError("Ожидается payload: player_id") from e
+        if pid not in self.players:
+            raise GameActionError("Неизвестный игрок")
+        del self.players[pid]
+        self.blocked_players.discard(pid)
+        if self.button_winner == pid:
+            self.button_winner = None
+            self.blocked_players.clear()
+            if self.status == "button_pressed":
+                self.status = "question_open"
+        self.final_bets.pop(pid, None)
+        self.final_answers.pop(pid, None)
+        self.final_judged.discard(pid)
 
     def _submit_final_bet(self, payload: dict) -> None:
         if self.status != "final":

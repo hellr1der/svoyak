@@ -187,6 +187,13 @@ export function Admin() {
     [runAction],
   );
 
+  const onRemovePlayer = useCallback(
+    async (playerId: string) => {
+      await runAction("remove_player", { player_id: playerId });
+    },
+    [runAction],
+  );
+
   const performReset = async () => {
     setResetConfirmOpen(false);
     setBusy(true);
@@ -370,7 +377,9 @@ export function Admin() {
         </div>
 
         <aside className="admin-sidebar">
-          {admin ? <PlayerList state={admin} busy={busy} onAdjust={onAdjust} /> : null}
+          {admin ? (
+            <PlayerList state={admin} busy={busy} onAdjust={onAdjust} onRemove={onRemovePlayer} />
+          ) : null}
         </aside>
       </div>
 
