@@ -50,11 +50,12 @@
 /* Экран вопроса */
 .display-question {
   /*
-    Одинаковый потолок по ширине и высоте: доля меньшей стороны экрана (vmin),
-    плюс px-потолок — чтобы слабые по разрешению исходники не растягивались
-    на весь зал (меньше «мыла»). Подстрой: 94vmin и 1600px при необходимости.
+    Одинаковый потолок по стороне (квадратный «рамка»): vmin + px.
+    Важно: лимит задаём слоту, а img — width/height 100% + object-fit: contain.
+    Если задать img { width:auto; height:auto; max-width:… }, картинка остаётся
+    в натуральном разрешении файла и не масштабируется вверх — выглядит «крошечной».
   */
-  --display-img-side-cap: min(94vmin, 1600px);
+  --display-img-side-cap: min(96vmin, 1920px);
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -93,12 +94,15 @@
 }
 
 .display-question__image-slot {
-  /* flex-basis: 0 — слот реально забирает всю свободную высоту, а не размер по контенту картинки */
+  /* Слот — реальный прямоугольник под картинку; flex забирает высоту под текст/буззер */
   flex: 1 1 0;
   min-height: 0;
-  width: 100%;
+  min-width: 0;
+  width: min(100%, var(--display-img-side-cap));
+  max-height: min(100%, var(--display-img-side-cap));
+  align-self: center;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 }
 
@@ -114,10 +118,10 @@
 
 .display-question__image {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: min(100%, var(--display-img-side-cap));
-  max-height: min(100%, var(--display-img-side-cap));
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
   object-position: center;
 }
