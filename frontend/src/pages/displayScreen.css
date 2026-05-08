@@ -50,12 +50,13 @@
 /* Экран вопроса */
 .display-question {
   /*
-    Одинаковый потолок по стороне (квадратный «рамка»): vmin + px.
-    Важно: лимит задаём слоту, а img — width/height 100% + object-fit: contain.
-    Если задать img { width:auto; height:auto; max-width:… }, картинка остаётся
-    в натуральном разрешении файла и не масштабируется вверх — выглядит «крошечной».
+    Потолок слота: vmin + px. Картинка — position:absolute на весь слот + object-fit: contain.
+    Не использовать align-self:center у слота в колоночном flex: ширина станет «по контенту»
+    (как у самой картинки), и масштаб не растёт.
   */
+  /* Потолок стороны; высоту не связываем с % от flex-родителя — в ряде браузеров ломается */
   --display-img-side-cap: min(96vmin, 1920px);
+  --display-img-max-h: min(var(--display-img-side-cap), calc(100dvh - 140px));
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -94,16 +95,22 @@
 }
 
 .display-question__image-slot {
-  /* Слот — реальный прямоугольник под картинку; flex забирает высоту под текст/буззер */
+  /*
+    Нельзя align-self: center на колоночном flex: поперечный размер = «по контенту»,
+    слот сжимается до натуральной ширины картинки — она остаётся крошечной.
+    Тянем на всю ширину блока, ограничиваем max-width, центрируем margin-inline.
+  */
+  position: relative;
   flex: 1 1 0;
   min-height: 0;
   min-width: 0;
-  width: min(100%, var(--display-img-side-cap));
-  max-height: min(100%, var(--display-img-side-cap));
-  align-self: center;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
+  align-self: stretch;
+  width: 100%;
+  max-width: min(100%, var(--display-img-side-cap));
+  margin-inline: auto;
+  max-height: var(--display-img-max-h);
+  /* Запас, если расчёт flex-высоты даст слишком мало */
+  min-height: min(28vmin, var(--display-img-max-h));
 }
 
 .display-question__text {
@@ -117,11 +124,11 @@
 }
 
 .display-question__image {
-  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  min-width: 0;
-  min-height: 0;
   object-fit: contain;
   object-position: center;
 }
