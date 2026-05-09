@@ -63,11 +63,12 @@
     Не использовать align-self:center у слота в колоночном flex: ширина станет «по контенту»
     (как у самой картинки), и масштаб не растёт.
   */
-  /* Ширина слота — по меньшей стороне экрана (читаемо на ультрашироких). */
+  /* Потолок по ширине (vmin) и по высоте (почти весь экран). */
   --display-img-side-cap: min(96vmin, 1920px);
-  /* Высоту не режем тем же cap: иначе на широких мониторах слот низкий, а «высота 1082 + top -316»
-     в DevTools — попытка вручную компенсировать этот потолок. Берём почти весь main под картинку. */
   --display-img-max-h: calc(100dvh - 88px);
+  /* Сторона квадрата под картинку: min(ширина, высота). Иначе слот 1265×410 — contain для квадрата
+     упирается в 410px по высоте, фото «точка» по центру широкой полосы. */
+  --display-img-slot: min(var(--display-img-side-cap), var(--display-img-max-h));
   width: 100%;
   flex: 1 1 0;
   min-height: 0;
@@ -107,17 +108,25 @@
   grid-template-rows: minmax(0, 1fr) auto;
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
-  align-content: start;
+  align-content: stretch;
+  height: 100%;
+  min-height: 0;
   gap: clamp(10px, 1.8vmin, 20px);
 }
 
 .display-question__image-slot {
   position: relative;
-  width: 100%;
-  max-width: min(100%, var(--display-img-side-cap));
-  min-height: min(36vmin, var(--display-img-max-h));
-  max-height: var(--display-img-max-h);
+  box-sizing: border-box;
+  /* Квадрат в пределах --display-img-slot; не шире ячейки grid */
+  width: min(100%, var(--display-img-slot));
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  margin-inline: auto;
   min-width: 0;
+  min-height: 0;
+  align-self: center;
 }
 
 .display-question__text {
