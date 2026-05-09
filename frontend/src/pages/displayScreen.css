@@ -19,10 +19,19 @@
 .display-main {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: stretch;
-  justify-content: center;
+  justify-content: flex-start;
   overflow: hidden;
   min-height: 0;
+}
+
+/* Единственный ребёнок main (табло / вопрос / доска) всегда забирает высоту под PlayerBar */
+.display-main > * {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
 }
 
 /* Idle / ожидание */
@@ -58,7 +67,7 @@
   --display-img-side-cap: min(96vmin, 1920px);
   --display-img-max-h: min(var(--display-img-side-cap), calc(100dvh - 140px));
   width: 100%;
-  height: 100%;
+  flex: 1 1 0;
   min-height: 0;
   background: #0b1230;
   display: flex;
@@ -90,27 +99,23 @@
   flex: 1 1 0;
 }
 
+/* С картинкой — grid: первая строка забирает всё свободное место, текст внизу */
 .display-question__body--with-image {
-  justify-content: flex-start;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: start;
+  gap: clamp(10px, 1.8vmin, 20px);
 }
 
 .display-question__image-slot {
-  /*
-    Нельзя align-self: center на колоночном flex: поперечный размер = «по контенту»,
-    слот сжимается до натуральной ширины картинки — она остаётся крошечной.
-    Тянем на всю ширину блока, ограничиваем max-width, центрируем margin-inline.
-  */
   position: relative;
-  flex: 1 1 0;
-  min-height: 0;
-  min-width: 0;
-  align-self: stretch;
   width: 100%;
   max-width: min(100%, var(--display-img-side-cap));
-  margin-inline: auto;
+  min-height: min(36vmin, var(--display-img-max-h));
   max-height: var(--display-img-max-h);
-  /* Запас, если расчёт flex-высоты даст слишком мало */
-  min-height: min(28vmin, var(--display-img-max-h));
+  min-width: 0;
 }
 
 .display-question__text {
