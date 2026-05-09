@@ -23,5 +23,6 @@ frontend/dist/
 .idea/
 .vscode/
 
-# backend/static — продакшен-сборка Vite; собирается при deploy (npm run build).
-# Не игнорируем: при желании можно коммитить артефакт; Railway пересобирает во frontend/.
+# Продакшен-сборка Vite → backend/static (npm run build). Не коммитить: иначе на деплое
+# могут оставаться старые index-*.css/js из git, если сборка не отработала.
+backend/static/

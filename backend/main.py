@@ -1,5 +1,7 @@
 import json
+import re
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Set
 
@@ -104,6 +106,24 @@ class JoinRequest(BaseModel):
 @app.get("/api/health")
 async def health() -> dict:
     return {"status": "ok"}
+
+
+@app.get("/api/build-info")
+async def build_info() -> dict:
+    """Диагностика деплоя: время сборки index.html и имена hashed-ассетов."""
+    index = STATIC_DIR / "index.html"
+    if not index.is_file():
+        return {"status": "missing", "detail": "frontend not built (no backend/static/index.html)"}
+    st = index.stat()
+    text = index.read_text(encoding="utf-8")
+    js_names = re.findall(r'/static/assets/(index-[A-Za-z0-9_-]+\.js)', text)
+    css_names = re.findall(r'/static/assets/(index-[A-Za-z0-9_-]+\.css)', text)
+    return {
+        "status": "ok",
+        "index_html_mtime_utc": datetime.fromtimestamp(st.st_mtime, tz=timezone.utc).isoformat(),
+        "asset_js": js_names,
+        "asset_css": css_names,
+    }
 
 
 @app.get("/api/state")

@@ -3,7 +3,7 @@ nixPkgs = ["nodejs_20", "python311", "python311Packages.pip"]
 
 [phases.build]
 cmds = [
-  "cd frontend && npm install && npm run build",
+  "cd frontend && npm install && npm run build && test -f ../backend/static/index.html && test -d ../backend/static/assets",
   "pip install -r backend/requirements.txt --break-system-packages"
 ]
 

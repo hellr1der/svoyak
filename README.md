@@ -67,6 +67,8 @@ cd ../backend && pip install -r requirements.txt && python -m uvicorn main:app -
 
 Проверьте на выданном URL маршруты `/admin`, `/display`, `/player` и WebSocket `wss://…/ws`.
 
+**Старая вёрстка после деплоя:** каталог `backend/static/` **не хранится в git** (игнор), он создаётся только `npm run build` на Railway. Раньше закоммиченные `index-*.css` из репозитория могли отдаваться, если сборка не выполнялась. Диагностика: откройте **`GET /api/build-info`** — там время `index.html` и имена hashed CSS/JS (сравните с локальной сборкой после `npm run build`).
+
 ## Структура
 
 ```
