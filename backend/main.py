@@ -226,10 +226,16 @@ if STATIC_DIR.is_dir():
     )
 
 
+_SPA_CACHE_HEADERS = {
+    # Свежий index.html — иначе браузер держит старую оболочку и подгружает старые hashed CSS/JS.
+    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+}
+
+
 def _spa_index_response():
     index = STATIC_DIR / "index.html"
     if index.is_file():
-        return FileResponse(index)
+        return FileResponse(index, headers=_SPA_CACHE_HEADERS)
     return JSONResponse({"error": "Frontend not built"}, status_code=503)
 
 
